@@ -42,7 +42,7 @@ task syncWithMergeRequests(dependsOn: 'classes', type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     // pass through specified system properties to the call to main
     ['help', 'jenkinsUrl', 'jenkinsUser', 'jenkinsPassword', 'templateJobPrefix', 'templateBranchName',
-            'assemblaUser', 'assemblaPassword', 'clientId', 'clientToken', 'spaceToolId',
+            'assemblaServerUrl', 'assemblaUser', 'assemblaPassword', 'clientId', 'clientToken',
             'spaceId', 'spaceToolId',
             'branchNameRegex', 'nestedView', 'printConfig', 'dryRun', 'noViews', 'noDelete'].each {
         if (System.getProperty(it)) systemProperty it, System.getProperty(it)
