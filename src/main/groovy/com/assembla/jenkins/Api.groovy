@@ -35,15 +35,19 @@ class Api {
         this.assemblaServerUrl = assemblaServerUrl
     }
 
-    List<String> mergeRequestBranchNames() {
+    List<String> getMergeRequestBranchNames() {
         // API response [[target_symbol:master, status:0, source_symbol_type:1, source_symbol:test, space_tool_id:dicbBK8rqr4ycHeJe7dGu1,
         // commit:null, processed_by_user_id:null, apply_status:null, user_id:bgnP_qA1Gr2QjIaaaHk9wZ, applied_at:null,
         // description:Nice try, target_space_tool_id:dicbBK8rqr4ycHeJe7dGu1, updated_at:2012-08-29T05:21:19-07:00, id:155,
         // created_at:2012-08-29T05:21:19-07:00]]
 
         def response = get(path: "api/v1/spaces/$spaceId/space_tools/$spaceToolId/merge_requests.json?status=open")
-        // println "resp ${response.data}"
-        return response.data.collect { it.source_symbol }
+        println "Found ${response.data.size()} MRs"
+
+        return response.data.collect {
+            println "  ${it.source_symbol}"
+            it.source_symbol
+        }
     }
 
     protected get(Map map) {

@@ -7,6 +7,6 @@ class Check {
                 // https://core.m-stage.assembla.cc/user/edit/manage_clients
                 clientId: 'cVbBqc8r8r4BH5eJe7dGu1', clientToken: 'b825a30264abc8da03d5d88556147592',
                 spaceId: 'groovy', spaceToolId: 'git')
-        println api.mergeRequestBranchNames()
+        println api.mergeRequestBranchNames
     }
 }

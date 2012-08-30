@@ -5,7 +5,7 @@ import com.entagen.jenkins.TemplateJob
 
 class JobManager extends JenkinsJobManager {
 
-    String assemblaServerUrl
+    String assemblaUrl
     String assemblaUser
     String assemblaPassword
     String clientId
@@ -42,7 +42,7 @@ class JobManager extends JenkinsJobManager {
             assert clientToken != null
             assert assemblaUser != null
             assert assemblaPassword != null
-            this.assemblaApi = new Api(assemblaServerUrl: assemblaServerUrl,
+            this.assemblaApi = new Api(assemblaServerUrl: assemblaUrl,
                     clientId: clientId, clientToken: clientToken,
                     spaceId: spaceId, spaceToolId: spaceToolId,
                     user: assemblaUser, password: assemblaPassword

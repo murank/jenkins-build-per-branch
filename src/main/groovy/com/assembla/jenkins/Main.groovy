@@ -21,7 +21,7 @@ class Main {
             usr: [longOpt: 'jenkins-user', required: false, args: 1, argName: 'jenkinsUser', description: "Jenkins username - gradle flag -DjenkinsUser=<jenkinsUser>"],
             pwd: [longOpt: 'jenkins-password', required: false, args: 1, argName: 'jenkinsPassword', description: "Jenkins password - gradle flag -DjenkinsPassword=<jenkinsPassword>"],
 
-            ausr: [longOpt: 'assembla-url', required: true, args: 1, argName: 'assemblaUrl', description: "Assembla server url - gradle flag -DassemblaUrl=<assemblaUrl>"],
+            aurl: [longOpt: 'assembla-url', required: true, args: 1, argName: 'assemblaUrl', description: "Assembla server url - gradle flag -DassemblaUrl=<assemblaUrl>"],
             cid:  [longOpt: 'client-id', required: true, args: 1, argName: 'clientId', description: "OAuth2 Client Id - gradle flag -DclientId=<clientId>"],
             ctok: [longOpt: 'client-token', required: true, args: 1, argName: 'clientToken', description: "OAuth2 Client Token - gradle flag -DclientToken=<clientToken>"],
             ausr: [longOpt: 'assembla-user', required: true, args: 1, argName: 'assemblaUser', description: "Assembla username - gradle flag -DassemblaUser=<assemblaUser>"],

@@ -42,7 +42,8 @@ task syncWithMergeRequests(dependsOn: 'classes', type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     // pass through specified system properties to the call to main
     ['help', 'jenkinsUrl', 'jenkinsUser', 'jenkinsPassword', 'templateJobPrefix', 'templateBranchName',
-            'assemblaServerUrl', 'assemblaUser', 'assemblaPassword', 'clientId', 'clientToken',
+            'assemblaUrl', 'assemblaUser', 'assemblaPassword', 'clientId', 'clientToken',
+            'gitUrl', // TODO temporary after space tool API will be read
             'spaceId', 'spaceToolId',
             'branchNameRegex', 'nestedView', 'printConfig', 'dryRun', 'noViews', 'noDelete'].each {
         if (System.getProperty(it)) systemProperty it, System.getProperty(it)
