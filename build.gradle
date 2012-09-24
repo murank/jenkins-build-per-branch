@@ -50,6 +50,15 @@ task syncWithMergeRequests(dependsOn: 'classes', type: JavaExec) {
     }
 }
 
+task setupAssemblaApi(dependsOn: 'classes', type: JavaExec) {
+    main = 'com.assembla.jenkins.SetupApi'
+    classpath = sourceSets.main.runtimeClasspath
+    // pass through specified system properties to the call to main
+    ['help', 'assemblaUrl', 'clientId'].each {
+        if (System.getProperty(it)) systemProperty it, System.getProperty(it)
+    }
+}
+
 task wrapper(type: Wrapper) {
     gradleVersion = '1.0'
 }

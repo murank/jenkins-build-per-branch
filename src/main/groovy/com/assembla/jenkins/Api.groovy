@@ -12,9 +12,9 @@ import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.Method
 
 class Api {
-    String assemblaServerUrl
-    String user
-    String password
+    String assemblaServerUrl = "https://api.assembla.com/"
+//    String user
+//    String password
     String clientId
     String clientToken
     String spaceId
@@ -24,6 +24,10 @@ class Api {
     protected String accessToken
     protected RESTClient restClient
     protected HttpRequestInterceptor requestInterceptor
+
+    public String getPinUrl() {
+        assemblaServerUrl + "authorization?client_id=$clientId&response_type=pin_code"
+    }
 
     // TODO, when space tool API is ready use it to get gitUrl
     def spaceTool() {
