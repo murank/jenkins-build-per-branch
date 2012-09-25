@@ -1,6 +1,9 @@
 package com.assembla.jenkins
 
 import com.entagen.jenkins.CliTools
+import oauth.signpost.basic.*
+import oauth.signpost.OAuth
+import groovyx.net.http.RESTClient
 
 class SetupApi extends CliTools {
     static Map<String, Map<String, Object>> options = [
@@ -16,7 +19,7 @@ class SetupApi extends CliTools {
         setupApi(assemblaApi)
     }
 
-    public static void setupApi(assemblaApi) {
+    public static void setupApi(Api assemblaApi) {
         println "Please copy below url and paste it in your browser ${assemblaApi.pinUrl}"
         println "Then login and copy the pin code from the web page and enter it."
         println assemblaApi.pinUrl
@@ -25,9 +28,25 @@ class SetupApi extends CliTools {
         print "PIN:"
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in))
 
-        def pinCode = br.readLine()
+        def pinCode = '9492505' //br.readLine()
         println "You entered: $pinCode"
 
+        def rest = new RESTClient(assemblaApi.assemblaServerUrl)
+        rest.auth.basic assemblaApi.clientId, assemblaApi.clientToken
+        println rest.post(path: "token?grant_type=pin_code&pin_code=$pinCode")
+
+        // https://_client_id:_client_secret@api.assembla.com/token?grant_type=pin_code&pin_code=_pin_code
+
+
+//        def consumer = new DefaultOAuthConsumer(assemblaApi.clientId, assemblaApi.clientToken)
+//        def provider = new DefaultOAuthProvider(
+//                                 "${assemblaApi.assemblaServerUrl}token",
+//                                 "${assemblaApi.assemblaServerUrl}token",
+//                                 "${assemblaApi.assemblaServerUrl}authorization");
+//        println provider.retrieveRequestToken(consumer, OAuth.OUT_OF_BAND);
+//        provider.retrieveAccessToken(consumer, pinCode)
+//        println consumer.token
+//        println consumer.tokenSecret
     }
 
     static Map<String, String> parseArgs(String[] args) {

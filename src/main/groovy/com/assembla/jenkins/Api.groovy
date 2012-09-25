@@ -17,6 +17,8 @@ class Api {
 //    String password
     String clientId
     String clientToken
+    String token
+    String tokenSecret
     String spaceId
     String spaceToolId
 
