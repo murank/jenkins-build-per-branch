@@ -13,17 +13,11 @@ import groovyx.net.http.Method
 
 class Api {
     String assemblaServerUrl = "https://api.assembla.com/"
-//    String user
-//    String password
-    String clientId
-    String clientToken
-    String token
-    String tokenSecret
+    String apiKey
+    String apiSecret
     String spaceId
     String spaceToolId
 
-    protected Integer authStep = 0
-    protected String accessToken
     protected RESTClient restClient
     protected HttpRequestInterceptor requestInterceptor
 
@@ -32,8 +26,10 @@ class Api {
     }
 
     // TODO, when space tool API is ready use it to get gitUrl
-    def spaceTool() {
-        get(path:"/")
+    public String getGitUrl() {
+        def response = get(path:"api/v1/spaces/$spaceId/space_tools/${spaceToolId}.json")
+        //println(response.data)
+        return response.data.url
     }
 
     public void setAssemblaServerUrl(String assemblaServerUrl) {
@@ -48,12 +44,21 @@ class Api {
         // created_at:2012-08-29T05:21:19-07:00]]
 
         def response = get(path: "api/v1/spaces/$spaceId/space_tools/$spaceToolId/merge_requests.json?status=open")
-        println "Found ${response.data.size()} MRs"
+        def result = []
 
-        return response.data.collect {
-            println "  ${it.source_symbol}"
-            it.source_symbol
+        if (response.status != 204) {
+            println "Found ${response.data.size()} MRs"
+
+            result = response.data.collect {
+                println "  ${it.source_symbol}"
+                it.source_symbol
+            }
         }
+        else {
+            println "There are no MRs..."
+        }
+
+        return result
     }
 
     protected get(Map map) {
@@ -117,23 +122,10 @@ class Api {
         if (restClient == null) {
             this.requestInterceptor = new HttpRequestInterceptor() {
                 void process(HttpRequest httpRequest, HttpContext httpContext) {
-                    if (authStep == 0) {
-                        def auth = clientId + ':' + clientToken
-                        httpRequest.addHeader('Authorization', 'Basic ' + auth.bytes.encodeBase64().toString())
-                        httpRequest.addHeader('X-Auth-Username', user)
-                        httpRequest.addHeader('X-Auth-Password', password)
-                    }
-                    else {
-                        httpRequest.addHeader('Authorization', 'Bearer ' + accessToken)
-                    }
+                    httpRequest.addHeader('X-Api-Key', apiKey)
+                    httpRequest.addHeader('X-Api-Secret', apiSecret)
                 }
             }
-
-            // TODO LATER allow public applications with grant_credentials
-            def json = post('api/token', [:], [grant_type: 'password'])
-            //println(json.access_token)
-            this.accessToken = json.access_token
-            authStep = 1
 
             this.restClient = new RESTClient(assemblaServerUrl)
             restClient.client.addRequestInterceptor(this.requestInterceptor)

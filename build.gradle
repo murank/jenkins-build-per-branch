@@ -11,8 +11,8 @@ dependencies {
     compile 'commons-cli:commons-cli:1.2' // should be part of groovy, but not available when running for some reason
     testCompile 'junit:junit:4.10'
     compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.5.2'
-    compile 'oauth.signpost:signpost-core:1.2.1.2'
-    compile 'oauth.signpost:signpost-commonshttp4:1.2.1.2'
+    //compile 'oauth.signpost:signpost-core:1.2.1.2'
+    //compile 'oauth.signpost:signpost-commonshttp4:1.2.1.2'
 }
 
 task createSourceDirs(description : 'Create empty source directories for all defined sourceSets') << {
@@ -44,19 +44,9 @@ task syncWithMergeRequests(dependsOn: 'classes', type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     // pass through specified system properties to the call to main
     ['help', 'jenkinsUrl', 'jenkinsUser', 'jenkinsPassword', 'templateJobPrefix', 'templateBranchName',
-            'assemblaUrl', 'assemblaUser', 'assemblaPassword', 'clientId', 'clientToken',
-            'gitUrl', // TODO temporary after space tool API will be read
+            'assemblaUrl', 'apiKey', 'apiSecret',
             'spaceId', 'spaceToolId',
             'branchNameRegex', 'nestedView', 'printConfig', 'dryRun', 'noViews', 'noDelete'].each {
-        if (System.getProperty(it)) systemProperty it, System.getProperty(it)
-    }
-}
-
-task setupAssemblaApi(dependsOn: 'classes', type: JavaExec) {
-    main = 'com.assembla.jenkins.SetupApi'
-    classpath = sourceSets.main.runtimeClasspath
-    // pass through specified system properties to the call to main
-    ['help', 'assemblaUrl', 'clientId'].each {
         if (System.getProperty(it)) systemProperty it, System.getProperty(it)
     }
 }

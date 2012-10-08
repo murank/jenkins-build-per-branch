@@ -153,7 +153,7 @@ class JenkinsJobManager {
         return this.jenkinsApi
     }
 
-    GitApi initGitApi() {
+    void initGitApi() {
         if (!gitApi) {
             assert gitUrl != null
             this.gitApi = new GitApi(gitUrl: gitUrl)
@@ -161,7 +161,5 @@ class JenkinsJobManager {
                 this.gitApi.branchNameFilter = ~this.branchNameRegex
             }
         }
-
-        return this.gitApi
     }
 }

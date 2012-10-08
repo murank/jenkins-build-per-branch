@@ -4,7 +4,6 @@ class CliTools {
     public static final Map<String, Map<String, Object>> opts = [
             h: [longOpt: 'help', required: false, args: 0, argName: 'help', description: "Print usage information - gradle flag -Dhelp=true"],
             j: [longOpt: 'jenkins-url', required: true, args: 1, argName: 'jenkinsUrl', description: "Jenkins URL - gradle flag -DjenkinsUrl=<jenkinsUrl>"],
-            // TODO we will get git url from space tool API
             u: [longOpt: 'git-url',  required: true, args: 1, argName: 'gitUrl', description: "Git Repository URL - gradle flag -DgitUrl=<gitUrl>"],
             p: [longOpt: 'job-prefix', required: true, args: 1, argName: 'templateJobPrefix', description: "Template Job Prefix, - gradle flag -DtemplateJobPrefix=<jobPrefix>"],
             t: [longOpt: 'template-branch', required: true, args: 1, argName: 'templateBranchName', description: "Template Branch Name - gradle flag -DtemplateBranchName=<branchName>"],
@@ -16,14 +15,6 @@ class CliTools {
             f: [longOpt: 'filter-branch-names', required: false, args: 1, argName: 'branchNameRegex', description: "Only branches matching the regex will be accepted - gradle flag: -DbranchNameRegex=<regex>"],
             usr: [longOpt: 'jenkins-user', required: false, args: 1, argName: 'jenkinsUser', description: "Jenkins username - gradle flag -DjenkinsUser=<jenkinsUser>"],
             pwd: [longOpt: 'jenkins-password', required: false, args: 1, argName: 'jenkinsPassword', description: "Jenkins password - gradle flag -DjenkinsPassword=<jenkinsPassword>"],
-
-            aurl: [longOpt: 'assembla-url', required: true, args: 1, argName: 'assemblaUrl', description: "Assembla server url - gradle flag -DassemblaUrl=<assemblaUrl>"],
-            cid:  [longOpt: 'client-id', required: true, args: 1, argName: 'clientId', description: "OAuth2 Client Id - gradle flag -DclientId=<clientId>"],
-            ctok: [longOpt: 'client-token', required: true, args: 1, argName: 'clientToken', description: "OAuth2 Client Token - gradle flag -DclientToken=<clientToken>"],
-            ausr: [longOpt: 'assembla-user', required: true, args: 1, argName: 'assemblaUser', description: "Assembla username - gradle flag -DassemblaUser=<assemblaUser>"],
-            apwd: [longOpt: 'assembla-password', required: true, args: 1, argName: 'assemblaPassword', description: "Assembla password - gradle flag -DassemblaPassword=<assemblaPassword>"],
-            s:    [longOpt: 'space-id', required: true, args: 1, argName: 'spaceId', description: "Space Id - gradle flag -DspaceId=<spaceId>"], // TODO this param is useless
-            s1:    [longOpt: 'space-tool-id', required: true, args: 1, argName: 'spaceToolId', description: "Space tool Id - gradle flag -DspaceToolId=<spaceToolId>"]
     ]
 
     public static Map<String, String> parseArgs(String[] args) {

@@ -1,8 +1,6 @@
 package com.assembla.jenkins
 
 import com.entagen.jenkins.CliTools
-import oauth.signpost.basic.*
-import oauth.signpost.OAuth
 import groovyx.net.http.RESTClient
 
 class SetupApi extends CliTools {

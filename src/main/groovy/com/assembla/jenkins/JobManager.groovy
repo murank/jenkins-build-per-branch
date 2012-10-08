@@ -2,14 +2,13 @@ package com.assembla.jenkins
 
 import com.entagen.jenkins.JenkinsJobManager
 import com.entagen.jenkins.TemplateJob
+import com.entagen.jenkins.GitApi
 
 class JobManager extends JenkinsJobManager {
 
     String assemblaUrl
-//    String assemblaUser
-//    String assemblaPassword
-    String clientId
-    String clientToken
+    String apiKey
+    String apiSecret
     String spaceId
     String spaceToolId
 
@@ -36,18 +35,20 @@ class JobManager extends JenkinsJobManager {
         }
     }
 
+    void initGitApi() {
+        initApi()
+        super
+    }
+
     Api initApi() {
         if (!assemblaApi) {
-            assert clientId != null
-            assert clientToken != null
-//            assert assemblaUser != null
-//            assert assemblaPassword != null
+            assert apiKey != null
+            assert apiSecret != null
             this.assemblaApi = new Api(assemblaServerUrl: assemblaUrl,
-                    clientId: clientId, clientToken: clientToken,
+                    apiKey: apiKey, apiSecret: apiSecret,
                     spaceId: spaceId, spaceToolId: spaceToolId
-//                    user: assemblaUser, password: assemblaPassword
             )
-            // this.gitUrl = assemblaApi.spaceTool.gitUrl TODO wait for space tool API
+            this.gitUrl = assemblaApi.gitUrl
         }
 
         return this.assemblaApi
