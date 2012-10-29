@@ -27,7 +27,7 @@ class Api {
 
     // TODO, when space tool API is ready use it to get gitUrl
     public String getGitUrl() {
-        def response = get(path:"api/v1/spaces/$spaceId/space_tools/${spaceToolId}.json")
+        def response = get(path:"v1/spaces/$spaceId/space_tools/${spaceToolId}.json")
         //println(response.data)
         return response.data.url
     }
@@ -43,7 +43,7 @@ class Api {
         // description:Nice try, target_space_tool_id:dicbBK8rqr4ycHeJe7dGu1, updated_at:2012-08-29T05:21:19-07:00, id:155,
         // created_at:2012-08-29T05:21:19-07:00]]
 
-        def response = get(path: "api/v1/spaces/$spaceId/space_tools/$spaceToolId/merge_requests.json?status=open")
+        def response = get(path: "v1/spaces/$spaceId/space_tools/$spaceToolId/merge_requests.json?status=open")
         def result = []
 
         if (response.status != 204) {
