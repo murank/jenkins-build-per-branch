@@ -33,8 +33,10 @@ class Api {
     }
 
     public void setAssemblaServerUrl(String assemblaServerUrl) {
-        if (!assemblaServerUrl.endsWith("/")) assemblaServerUrl += "/"
-        this.assemblaServerUrl = assemblaServerUrl
+        if (assemblaServerUrl != null) {
+          if (!assemblaServerUrl.endsWith("/")) assemblaServerUrl += "/"
+          this.assemblaServerUrl = assemblaServerUrl
+        }
     }
 
     List<String> getMergeRequestBranchNames() {

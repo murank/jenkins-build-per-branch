@@ -21,7 +21,7 @@ class Main extends CliTools {
             usr: [longOpt: 'jenkins-user', required: false, args: 1, argName: 'jenkinsUser', description: "Jenkins username - gradle flag -DjenkinsUser=<jenkinsUser>"],
             pwd: [longOpt: 'jenkins-password', required: false, args: 1, argName: 'jenkinsPassword', description: "Jenkins password - gradle flag -DjenkinsPassword=<jenkinsPassword>"],
 
-            aurl: [longOpt: 'assembla-url', required: true, args: 1, argName: 'assemblaUrl', description: "Assembla server url - gradle flag -DassemblaUrl=<assemblaUrl>"],
+            aurl: [longOpt: 'assembla-url', required: false, args: 1, argName: 'assemblaUrl', description: "Assembla server url - gradle flag -DassemblaUrl=<assemblaUrl>"],
             apk:  [longOpt: 'api-key', required: true, args: 1, argName: 'apiKey', description: "Assembla Api - gradle flag -DapiKey=<apiKey>"],
             aps:  [longOpt: 'api-secret', required: true, args: 1, argName: 'apiSecret', description: "Assembla Api - gradle flag -DapiSecret=<apiSecret>"],
             s:    [longOpt: 'space-id', required: true, args: 1, argName: 'spaceId', description: "Space Id - gradle flag -DspaceId=<spaceId>"],
