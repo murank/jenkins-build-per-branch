@@ -67,7 +67,7 @@ class CliTools {
     }
 
     public static formatValue(String key, String value) {
-        return (key == "jenkinsPassword") ? "********" : value
+        return (key.toLowerCase().contains("password") || key.toLowerCase().contains("secret")) ? "********" : value
     }
 
     public static Map<String, String> mergeSystemPropertyOptions(OptionAccessor commandLineOptions) {
