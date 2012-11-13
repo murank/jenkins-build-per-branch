@@ -39,7 +39,7 @@ class Api {
         }
     }
 
-    List<String> getMergeRequestBranchNames() {
+    List<List<String>> getMergeRequestInfo() {
         // API response [[target_symbol:master, status:0, source_symbol_type:1, source_symbol:test, space_tool_id:dicbBK8rqr4ycHeJe7dGu1,
         // commit:null, processed_by_user_id:null, apply_status:null, user_id:bgnP_qA1Gr2QjIaaaHk9wZ, applied_at:null,
         // description:Nice try, target_space_tool_id:dicbBK8rqr4ycHeJe7dGu1, updated_at:2012-08-29T05:21:19-07:00, id:155,
@@ -52,8 +52,13 @@ class Api {
             println "Found ${response.data.size()} MRs"
 
             result = response.data.collect {
-                println "  ${it.source_symbol}"
-                it.source_symbol
+                [
+                    id: it.id,
+                    title: it.title,
+                    sourceSymbol: it.source_symbol,
+                    targetSymbol: it.target_symbol,
+                    jobName: it.source_symbol + "-" + it.target_symbol + "-" + it.id.toString()
+                ]
             }
         }
         else {

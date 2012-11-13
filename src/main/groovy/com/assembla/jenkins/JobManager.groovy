@@ -3,6 +3,7 @@ package com.assembla.jenkins
 import com.entagen.jenkins.JenkinsJobManager
 import com.entagen.jenkins.TemplateJob
 import com.entagen.jenkins.GitApi
+import com.entagen.jenkins.ConcreteJob
 
 class JobManager extends JenkinsJobManager {
 
@@ -20,19 +21,37 @@ class JobManager extends JenkinsJobManager {
     }
 
     void syncWithMergeRequests() {
-        List<String> allBranchNames = assemblaApi.mergeRequestBranchNames
-        List<String> allJobNames = jenkinsApi.jobNames
+        List<List<String>> allMergeRequests = assemblaApi.mergeRequestInfo
+        List<String>       allJobNames      = jenkinsApi.jobNames
 
         // ensure that there is at least one job matching the template pattern, collect the set of template jobs
-        List<TemplateJob> templateJobs = findRequiredTemplateJobs(allJobNames)
+        List<TemplateJob>  templateJobs     = findRequiredTemplateJobs(allJobNames)
 
-        // create any missing template jobs and delete any jobs matching the template patterns that no longer have branches
-        syncJobs(allBranchNames, allJobNames, templateJobs)
+        // create any missing template jobs and delete any jobs matching the template patterns that no longer have merge requests
+        syncJobs(allMergeRequests, allJobNames, templateJobs)
 
         // create any missing branch views, scoped within a nested view if we were given one
         if (!noViews) {
-            syncViews(allBranchNames)
+            syncViews(allMergeRequests.collect { it.jobName })
         }
+    }
+
+    public void syncJobs(List<List<String>> allMergeRequests, List<String> allJobNames, List<TemplateJob> templateJobs) {
+        List<String> currentTemplateDrivenJobNames = templateDrivenJobNames(templateJobs, allJobNames)
+        List<ConcreteJob> expectedJobs = this.expectedJobs(templateJobs, allMergeRequests)
+
+        createMissingJobs(expectedJobs, currentTemplateDrivenJobNames, templateJobs)
+        if (!noDelete) {
+            deleteDeprecatedJobs(currentTemplateDrivenJobNames - expectedJobs.jobName)
+        }
+    }
+
+    public List<ConcreteJob> expectedJobs(List<TemplateJob> templateJobs, List<List<String>> allMergeRequests) {
+        allMergeRequests.collect {
+            templateJobs.collect {
+                TemplateJob templateJob -> templateJob.concreteJobForBranch(it.sourceSymbol, it.jobName)
+            }
+        }.flatten()
     }
 
     void initGitApi() {
