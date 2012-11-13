@@ -51,7 +51,7 @@ class JenkinsApi {
         response.data.text
     }
 
-    void cloneJobForBranch(ConcreteJob missingJob, List<TemplateJob> templateJobs) 
+    void cloneJobForBranch(ConcreteJob missingJob, List<TemplateJob> templateJobs)
     {
         String missingJobConfig = configForMissingJob(missingJob, templateJobs)
         TemplateJob templateJob = missingJob.templateJob
@@ -72,7 +72,7 @@ class JenkinsApi {
 
         // this is in case there are other down-stream jobs that this job calls, we want to be sure we're replacing their names as well
         templateJobs.each {
-            config = config.replaceAll(it.jobName, it.jobNameForBranch(missingJob.branchName))
+            config = config.replaceAll(it.jobName, it.fixJobName(missingJob.branchName))
         }
 
         return config

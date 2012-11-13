@@ -37,8 +37,8 @@ class JenkinsJobManagerTests extends GroovyTestCase {
     @Test public void testTemplateJobSafeNames() {
         TemplateJob templateJob = new TemplateJob(jobName: "myproj-foo-master", baseJobName: "myproj-foo", templateBranchName: "master")
 
-        assert "myproj-foo-myfeature" == templateJob.jobNameForBranch("myfeature")
-        assert "myproj-foo-ted_myfeature" == templateJob.jobNameForBranch("ted/myfeature")
+        assert "myproj-foo-myfeature" == templateJob.fixJobName("myfeature")
+        assert "myproj-foo-ted_myfeature" == templateJob.fixJobName("ted/myfeature")
     }
 
 
