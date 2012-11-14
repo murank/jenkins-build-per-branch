@@ -12,6 +12,7 @@ class JobManager extends JenkinsJobManager {
     String apiSecret
     String spaceId
     String spaceToolId
+    String skipUpstream
 
     private Api assemblaApi
 
@@ -24,6 +25,10 @@ class JobManager extends JenkinsJobManager {
         List<List<String>> allMergeRequests = assemblaApi.mergeRequestInfo
         List<String>       allJobNames      = jenkinsApi.jobNames
 
+        if (skipUpstream) {
+            allMergeRequests = skipUpstreamMergeRequests(allMergeRequests)
+        }
+
         // ensure that there is at least one job matching the template pattern, collect the set of template jobs
         List<TemplateJob>  templateJobs     = findRequiredTemplateJobs(allJobNames)
 
@@ -34,6 +39,10 @@ class JobManager extends JenkinsJobManager {
         if (!noViews) {
             syncViews(allMergeRequests.collect { it.jobName })
         }
+    }
+
+    public List<List<String>> skipUpstreamMergeRequests(List<List<String>> allMergeRequests) {
+        allMergeRequests.findAll { !(it.sourceSymbol == "master" && it.targetSymbol == "master") }
     }
 
     public void syncJobs(List<List<String>> allMergeRequests, List<String> allJobNames, List<TemplateJob> templateJobs) {

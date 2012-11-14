@@ -25,7 +25,8 @@ class Main extends CliTools {
             apk:  [longOpt: 'api-key', required: true, args: 1, argName: 'apiKey', description: "Assembla Api - gradle flag -DapiKey=<apiKey>"],
             aps:  [longOpt: 'api-secret', required: true, args: 1, argName: 'apiSecret', description: "Assembla Api - gradle flag -DapiSecret=<apiSecret>"],
             s:    [longOpt: 'space-id', required: true, args: 1, argName: 'spaceId', description: "Space Id - gradle flag -DspaceId=<spaceId>"],
-            s1:    [longOpt: 'space-tool-id', required: true, args: 1, argName: 'spaceToolId', description: "Space tool Id - gradle flag -DspaceToolId=<spaceToolId>"]
+            s1:   [longOpt: 'space-tool-id', required: true, args: 1, argName: 'spaceToolId', description: "Space tool Id - gradle flag -DspaceToolId=<spaceToolId>"],
+            up:   [longOpt: 'skip-upstream', required: false, args: 1, argName: 'skipUpstream', description: "Skip Upstream - gradle flag -DskipUpstream=true"]
     ]
 
     public static void main(String[] args) {

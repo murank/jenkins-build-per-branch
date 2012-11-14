@@ -45,7 +45,7 @@ task syncWithMergeRequests(dependsOn: 'classes', type: JavaExec) {
     // pass through specified system properties to the call to main
     ['help', 'jenkinsUrl', 'jenkinsUser', 'jenkinsPassword', 'templateJobPrefix', 'templateBranchName',
             'assemblaUrl', 'apiKey', 'apiSecret',
-            'spaceId', 'spaceToolId',
+            'spaceId', 'spaceToolId', 'skipUpstream',
             'branchNameRegex', 'nestedView', 'printConfig', 'dryRun', 'noViews', 'noDelete'].each {
         if (System.getProperty(it)) systemProperty it, System.getProperty(it)
     }
