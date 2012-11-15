@@ -70,12 +70,46 @@ class JenkinsApi {
             return "$prefix${missingJob.branchName}<"
         }
 
+        config = updateConfigMergeParameters(config, missingJob)
+
         // this is in case there are other down-stream jobs that this job calls, we want to be sure we're replacing their names as well
         templateJobs.each {
             config = config.replaceAll(it.jobName, it.fixJobName(missingJob.branchName))
         }
 
         return config
+    }
+
+    String updateConfigMergeParameters(String config, ConcreteJob missingJob) {
+        Node root = new XmlParser().parseText(config)
+        String result = config
+
+        if (!(missingJob.targetSymbol == null && missingJob.targetRemote == null)) {
+            def properties = root["properties"]["hudson.model.ParametersDefinitionProperty"]["parameterDefinitions"]["hudson.model.StringParameterDefinition"]
+            def properties_changed = false
+
+            properties.each {
+                if (it.name.text() == "MERGE_REMOTE" && missingJob.targetRemote != null) {
+                    properties_changed = true
+                    it.remove(it.defaultValue)
+                    Node node = new Node(it, 'defaultValue', missingJob.targetRemote)
+                } else if (it.name.text() == "MERGE_BRANCH" && missingJob.targetSymbol != null) {
+                    properties_changed = true
+                    it.remove(it.defaultValue)
+                    Node node = new Node(it, 'defaultValue', missingJob.targetSymbol)
+                }
+            }
+
+            if (properties_changed) {
+                def writer = new StringWriter()
+                def printer = new XmlNodePrinter(new PrintWriter(writer))
+                printer.preserveWhitespace = true
+                printer.print(root)
+                result = writer.toString()
+            }
+        }
+
+        result
     }
 
     void deleteJob(String jobName) {
@@ -154,7 +188,7 @@ class JenkinsApi {
           println "Trying to find crumb: ${jenkinsServerUrl}crumbIssuer/api/json"
           try {
             def response = restClient.get(path:"crumbIssuer/api/json")
-            
+
             if(response.data.crumbRequestField && response.data.crumb)
             {
               crumbInfo = [:]

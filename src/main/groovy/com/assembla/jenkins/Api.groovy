@@ -52,12 +52,18 @@ class Api {
             println "Found ${response.data.size()} MRs"
 
             result = response.data.collect {
+                def targetSpaceToolId = it.target_space_tool_id
+                def targetSpaceId     = it.target_space_id
+                def spaceToolResponse = get(path: "v1/spaces/$targetSpaceId/space_tools/${targetSpaceToolId}.json")
+                def targetRemote      = spaceToolResponse.data.url
+
                 [
                     id: it.id,
                     title: it.title,
                     sourceSymbol: it.source_symbol,
                     targetSymbol: it.target_symbol,
-                    jobName: it.source_symbol + "-" + it.target_symbol + "-" + it.id.toString()
+                    jobName: it.source_symbol + "-" + it.target_symbol + "-" + it.id.toString(),
+                    targetRemote: targetRemote
                 ]
             }
         }

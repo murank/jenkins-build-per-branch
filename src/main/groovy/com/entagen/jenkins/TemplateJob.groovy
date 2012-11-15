@@ -18,4 +18,14 @@ class TemplateJob {
     ConcreteJob concreteJobForBranch(String branchName, String jobName) {
         ConcreteJob concreteJob = new ConcreteJob(templateJob: this, branchName: branchName, jobName: fixJobName(jobName) )
     }
+
+    ConcreteJob concreteJobForBranch(String branchName, String jobName, String targetSymbol) {
+        ConcreteJob concreteJob = new ConcreteJob(templateJob: this, branchName: branchName, jobName: fixJobName(jobName),
+                                                  targetSymbol: targetSymbol )
+    }
+
+    ConcreteJob concreteJobForBranch(String branchName, String jobName, String targetSymbol, String targetRemote) {
+        ConcreteJob concreteJob = new ConcreteJob(templateJob: this, branchName: branchName, jobName: fixJobName(jobName),
+                                                  targetSymbol: targetSymbol, targetRemote: targetRemote )
+    }
 }

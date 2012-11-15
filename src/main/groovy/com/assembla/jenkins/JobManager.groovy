@@ -58,7 +58,12 @@ class JobManager extends JenkinsJobManager {
     public List<ConcreteJob> expectedJobs(List<TemplateJob> templateJobs, List<List<String>> allMergeRequests) {
         allMergeRequests.collect {
             templateJobs.collect {
-                TemplateJob templateJob -> templateJob.concreteJobForBranch(it.sourceSymbol, it.jobName)
+                TemplateJob templateJob ->
+                    if (it.targetRemote == null) {
+                        templateJob.concreteJobForBranch(it.sourceSymbol, it.jobName, it.targetSymbol)
+                    } else {
+                        templateJob.concreteJobForBranch(it.sourceSymbol, it.jobName, it.targetSymbol, it.targetRemote)
+                    }
             }
         }.flatten()
     }
