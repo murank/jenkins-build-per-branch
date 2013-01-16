@@ -15,6 +15,7 @@ class Main extends CliTools {
             n: [longOpt: 'nested-view', required: false, args: 1, argName: 'nestedView', description: "Nested Parent View Name - gradle flag -DnestedView=<nestedView> - optional - must have Jenkins Nested View Plugin installed"],
             c: [longOpt: 'print-config', required: false, args: 0, argName: 'printConfig', description: "Check configuration - print out settings then exit - gradle flag -DprintConfig=true"],
             d: [longOpt: 'dry-run', required: false, args: 0, argName: 'dryRun', description: "Dry run, don't actually modify, create, or delete any jobs, just print out what would happen - gradle flag: -DdryRun=true"],
+            s: [longOpt: 'start-on-create', required: false, args: 0, argName: 'startOnCreate', description:  "When creating a new job, start it at once."],
             v: [longOpt: 'no-views', required: false, args: 0, argName: 'noViews', description: "Suppress view creation - gradle flag -DnoViews=true"],
             k: [longOpt: 'no-delete', required: false, args: 0, argName: 'noDelete', description: "Do not delete (keep) branches and views - gradle flag -DnoDelete=true"],
             f: [longOpt: 'filter-branch-names', required: false, args: 1, argName: 'branchNameRegex', description: "Only branches matching the regex will be accepted - gradle flag: -DbranchNameRegex=<regex>"],
@@ -24,7 +25,7 @@ class Main extends CliTools {
             aurl: [longOpt: 'assembla-url', required: false, args: 1, argName: 'assemblaUrl', description: "Assembla server url - gradle flag -DassemblaUrl=<assemblaUrl>"],
             apk:  [longOpt: 'api-key', required: true, args: 1, argName: 'apiKey', description: "Assembla Api - gradle flag -DapiKey=<apiKey>"],
             aps:  [longOpt: 'api-secret', required: true, args: 1, argName: 'apiSecret', description: "Assembla Api - gradle flag -DapiSecret=<apiSecret>"],
-            s:    [longOpt: 'space-id', required: true, args: 1, argName: 'spaceId', description: "Space Id - gradle flag -DspaceId=<spaceId>"],
+            sid:  [longOpt: 'space-id', required: true, args: 1, argName: 'spaceId', description: "Space Id - gradle flag -DspaceId=<spaceId>"],
             s1:   [longOpt: 'space-tool-id', required: true, args: 1, argName: 'spaceToolId', description: "Space tool Id - gradle flag -DspaceToolId=<spaceToolId>"],
             up:   [longOpt: 'skip-upstream', required: false, args: 1, argName: 'skipUpstream', description: "Skip Upstream - gradle flag -DskipUpstream=true"]
     ]
