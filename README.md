@@ -73,6 +73,7 @@ The following options are available in the script:
 * **-DspaceToolId** - ex: git **(mandatory)** - the space tool url name. For first git tool it is git, for second git-2 etc.
 * **-DskipUpstream** - ex: true (optional) - if this is set, it will not build merge requests to upstream. This is useful if you work in forks and submit merge requests from fork/master to upstream/master. Usually, your template build will be already based on master, so you don't need the sync job to create jobs for this.
 * **-DdryRun** - ex: true - if this flag is passed with any value, it will not execute any changes only print out what would happen.
+* **-DstartOnCreate** - ex: build (optional) - this can be set to build or buildWithParameters to trigger the build with appropriote method after a new job is created
 
 ## Conventions ##
 
