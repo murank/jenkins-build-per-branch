@@ -1,6 +1,8 @@
 apply plugin: 'groovy'
 apply plugin: 'idea'
 
+defaultTasks 'jar'
+
 repositories {
     mavenCentral()
 }
@@ -43,8 +45,10 @@ task wrapper(type: Wrapper) {
     gradleVersion = '1.0'
 }
 
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+}
 
-
-
+manifest.mainAttributes("Main-Class" : "com.entagen.jenkins.Main")
 
 
