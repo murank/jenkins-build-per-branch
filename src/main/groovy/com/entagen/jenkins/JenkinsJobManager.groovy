@@ -11,6 +11,7 @@ class JenkinsJobManager {
     String branchNameRegex
     String jenkinsUser
     String jenkinsPassword
+    String entryJobRegex
     
     Boolean dryRun = false
     Boolean noViews = false
@@ -59,10 +60,11 @@ class JenkinsJobManager {
         List<ConcreteJob> missingJobs = expectedJobs.findAll { !currentJobs.contains(it.jobName) }
         if (!missingJobs) return
 
+        String regex = (startOnCreate && entryJobRegex!=null ? /^$templateJobPrefix-$entryJobRegex-.*$/ : /.*/)
         for(ConcreteJob missingJob in missingJobs) {
             println "Creating missing job: ${missingJob.jobName} from ${missingJob.templateJob.jobName}"
             jenkinsApi.cloneJobForBranch(missingJob, templateJobs)
-            if (startOnCreate) {
+            if (startOnCreate && missingJob.jobName ==~ regex) {
                 jenkinsApi.startJob(missingJob)
             }
         }

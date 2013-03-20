@@ -18,6 +18,7 @@ class Main {
             v: [longOpt: 'no-views', required: false, args: 0, argName: 'noViews', description: "Suppress view creation - gradle flag -DnoViews=true"],
             k: [longOpt: 'no-delete', required: false, args: 0, argName: 'noDelete', description: "Do not delete (keep) branches and views - gradle flag -DnoDelete=true"],
             f: [longOpt: 'filter-branch-names', required: false, args:  1, argName:  'branchNameRegex', description: "Only branches matching the regex will be accepted - gradle flag: -DbranchNameRegex=<regex>"],
+            e: [longOpt: 'filter-entry-jobs', required: false, args:  1, argName:  'entryJobRegex', description: "Only jobs matching the regex will be started on create - gradle flag: -DentryJobRegex=<regex>"],
             usr: [longOpt: 'jenkins-user',  required: false, args: 1, argName: 'jenkinsUser', description: "Jenkins username - gradle flag -DjenkinsUser=<jenkinsUser>"],
             pwd: [longOpt: 'jenkins-password',  required: false, args: 1, argName: 'jenkinsPassword', description: "Jenkins password - gradle flag -DjenkinsPassword=<jenkinsPassword>"]
     ]
