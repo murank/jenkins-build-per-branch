@@ -87,14 +87,20 @@ class JenkinsJobManager {
         List<String> templateJobNames = templateJobs.jobName
         List<String> templateBaseJobNames = templateJobs.baseJobName
 
+        String jobNameRegex = getJobNameRegex(branchNameRegex)
+
         // don't want actual template jobs, just the jobs that were created from the templates
         return (allJobNames - templateJobNames).findAll { String jobName ->
-            templateBaseJobNames.find { String baseJobName -> jobName.startsWith(baseJobName)}
+            templateBaseJobNames.find { String baseJobName -> jobName ==~ /^$baseJobName-$jobNameRegex$/}
         }
     }
 
+    String getJobNameRegex(String branchNameRegex) {
+        return (branchNameRegex==null ? ".*" : branchNameRegex.replaceAll('/', '_'));
+    }
+
     List<TemplateJob> findRequiredTemplateJobs(List<String> allJobNames) {
-        String regex = /^($templateJobPrefix-[^-]*)-($templateBranchName)$/
+        String regex = /^($templateJobPrefix(?:-[^-]*)+)-($templateBranchName)$/
 
         List<TemplateJob> templateJobs = allJobNames.findResults { String jobName ->
             TemplateJob templateJob = null
@@ -129,7 +135,8 @@ class JenkinsJobManager {
     }
 
     public List<String> getDeprecatedViewNames(List<String> existingViewNames, List<BranchView> expectedBranchViews) {
-         return existingViewNames?.findAll { it.startsWith(this.templateJobPrefix) } - expectedBranchViews?.viewName ?: []
+        String jobNameRegex = getJobNameRegex(branchNameRegex)
+        return existingViewNames?.findAll { it ==~ /^$templateJobPrefix-$jobNameRegex$/ } - expectedBranchViews?.viewName ?: []
     }
 
     public void deleteDeprecatedViews(List<String> deprecatedViewNames) {
