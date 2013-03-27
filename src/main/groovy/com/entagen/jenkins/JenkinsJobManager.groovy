@@ -12,6 +12,7 @@ class JenkinsJobManager {
     String jenkinsUser
     String jenkinsPassword
     String startOnCreate
+    String queryString
     String entryJobRegex
 
     Boolean dryRun = false
@@ -65,7 +66,7 @@ class JenkinsJobManager {
             println "Creating missing job: ${missingJob.jobName} from ${missingJob.templateJob.jobName}"
             jenkinsApi.cloneJobForBranch(missingJob, templateJobs)
             if (startOnCreate!=null && missingJob.jobName ==~ regex) {
-                jenkinsApi.startJob(missingJob, startOnCreate)
+                jenkinsApi.startJob(missingJob, startOnCreate, queryString)
             }
         }
 
